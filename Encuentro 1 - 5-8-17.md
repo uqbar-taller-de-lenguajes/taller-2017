@@ -74,7 +74,7 @@ L3 = {aᴺbᴺcᴺ / n pertenece a los naturales positivos} => Es un **lenguaje 
 
 Con L1 podemos decir que aaa es una palabra válida, con L2 podemos decir que aabb es una palabra válida pero abb no lo es.
 
-Lenguaje regular: es un lenguaje formal que puede ser definido por una gramática regular. Esto significa que puede definirse usando terminales (a), o unión de terminales (a|b), o una secuencia de terminales (ab), o una secuencia de 0 a n de un terminal (a*) aka estrella de Kleene. Luego esto mismo puede extenderse a cosas como que la unión de dos lenguajes regulares es un lenguaje regular y cosas como esas.
+Lenguaje regular: es un lenguaje formal que puede ser definido por una gramática regular. Esto significa que puede definirse usando terminales (a), o unión de terminales (a|b), o una secuencia de terminales (ab), o una secuencia de 0 a n de un terminal (a*) aka clausura de Kleene. Luego esto mismo puede extenderse a cosas como que la unión de dos lenguajes regulares es un lenguaje regular y cosas como esas.
 
 L1 puede escribirse con la expresión regular: aa* que también se puede escribir como a+
 
@@ -97,6 +97,41 @@ L -> a
 
 Hay que tener cuidado con las recursiones a izquierda, o sea: `L -> La` tendría problemas porque genera un loop infinito al procesarla.
 
-En un lenguaje dependiente del contexto vale poner un terminal a la izquierda de la -> en la gramática, por ejemplo `bL -> a`. Esto nos lleva a cosas muy complejas en las que **no queremos caer**.
+En un lenguaje dependiente del contexto vale poner un terminal a la izquierda de la -> en la gramática, por ejemplo `bL -> a`. Esto nos lleva a cosas muy complejas en las que **no queremos caer**. Para L3 tendríamos que llegar a algo como esto:
+```
+S -> aSBC | ε
+aB -> ab
+bB -> bb
+bC -> bc
+cC -> cc
+CB -> HB
+HB -> HC
+HC -> BC
+```
 
 Lo importante es que manejemos expresiones regulares (para cosas típicas como por ejemplo identificadores y para porciones de nuestros problemas) por una cuestión de simplicidad, y gramáticas independientes del contexto (porque por ejemplo si querés tener paréntesis que abren y cierran la expresión regular no sirve).
+
+---
+
+La próxima empezaríamos a **hacer** cosas, así que hay que traer compu con:
+- node, para poder correr javascript en el escritorio
+- npm o yarn, para manejar dependencias
+- babel, para poder transpilar a versiones más viejas de javascript y poder usar todos los chiches copados de las nuevas versiones de ECMAscript, por ejemplo para construcción y deconstrucción de arrays y objetos
+- mocha (runner de tests) y chai (dice cómo escribirlos)
+- vscode (IDE recomendado, no editor de texto)
+- peg.js, que convierte un archivo con definición de gramática a un parser (ver ejemplo de Wollok)
+
+Vamos a subir un repo de base con las dependencias que ya incluyen las mencionadas en esa lista.
+
+---
+
+Links útiles:
+- Babylon https://github.com/babel/babylon y Babel https://github.com/babel/babel
+- Ejemplo de combinación de gramáticas y regex que se usaron para definir Wollok: https://github.com/uqbar-project/wollok-js/blob/master/src/grammar.pegjs#L45
+- Playground para regex: https://regex101.com/
+
+---
+
+Referencias teóricas:
+- Primeros 3 capítulos de "Type and programming languages" de Pierce
+- Algo más práctico: Cómo está definido Estree de babel, librería que define de forma genérica el AST de ECMAScript
